@@ -1568,6 +1568,7 @@ function! s:Write(force,...) abort
 
   unlet! restorewinnr
   let zero = s:repo().translate(':0:'.path)
+  silent execute 'doautocmd BufWritePost' s:fnameescape(zero)
   for tab in range(1,tabpagenr('$'))
     for winnr in range(1,tabpagewinnr(tab,'$'))
       let bufnr = tabpagebuflist(tab)[winnr-1]
@@ -2326,7 +2327,7 @@ function! s:Browse(bang,line1,count,...) abort
     let url = s:gsub(url, '[ <>]', '\="%".printf("%02X",char2nr(submatch(0)))')
     if a:bang
       if has('clipboard')
-        let @* = url
+        let @+ = url
       endif
       return 'echomsg '.string(url)
     elseif exists(':Browse') == 2
