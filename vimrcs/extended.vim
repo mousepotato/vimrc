@@ -21,12 +21,15 @@ elseif has("unix")
     set gfn=Monospace\ 11
 endif
 
+<<<<<<< HEAD
 "" Open MacVim in fullscreen mode
 "if has("gui_macvim")
 "    set fuoptions=maxvert,maxhorz
 "    au GUIEnter * set fullscreen
 "endif
 
+=======
+>>>>>>> amix_vimrc/master
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
 set guioptions-=r
 set guioptions-=R
@@ -34,20 +37,15 @@ set guioptions-=l
 set guioptions-=L
 
 " Colorscheme
-if has("gui_running")
-    set background=dark
-    colorscheme peaksea
-else
-    colorscheme desert
-    let g:colors_name="desert"
-endif
+set background=dark
+colorscheme peaksea
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>e :e! ~/.vim_runtime/my_configs.vim<cr>
-autocmd! bufwritepost vimrc source ~/.vim_runtime/my_configs.vim
+autocmd! bufwritepost ~/.vim_runtime/my_configs.vim source ~/.vim_runtime/my_configs.vim
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -117,6 +115,41 @@ iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 " => Omni complete functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Ack searching and cope displaying
+"    requires ack.vim - it's much better than vimgrep/grep
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use the the_silver_searcher if possible (much faster than Ack)
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep --smart-case'
+endif
+
+" When you press gv you Ack after the selected text
+vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+
+" Open Ack and put the cursor in the right position
+map <leader>g :Ack 
+
+" When you press <leader>r you can search and replace the selected text
+vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+
+" Do :help cope if you are unsure what cope is. It's super useful!
+"
+" When you search with Ack, display your results in cope by doing:
+"   <leader>cc
+"
+" To go to the next search result do:
+"   <leader>n
+"
+" To go to the previous search results do:
+"   <leader>p
+"
+map <leader>cc :botright cope<cr>
+map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
+map <leader>n :cn<cr>
+map <leader>p :cp<cr>
 
 
 

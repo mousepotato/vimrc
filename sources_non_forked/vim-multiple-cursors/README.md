@@ -18,7 +18,7 @@
  - [Contributing](#contributing)
  - [Credit](#credit)
 
-###Contributors
+### Contributors
 - [eapache](https://github.com/eapache)
 - [aschrab](https://github.com/aschrab)
 - [kristijanhusak](https://github.com/kristijanhusak)
@@ -188,6 +188,9 @@ endfunction
 
 With this locking and unlocking we prevent neocomplete to trigger it's function calls until we are finished with multiple cursors editing.
 
+Plugins themselves can register `User` autocommands on `MultipleCursorsPre` and
+`MultipleCursorsPost` for automatic integration.
+
 ### Highlight
 The plugin uses the highlight group `multiple_cursors_cursor` and `multiple_cursors_visual` to highlight the virtual cursors and their visual selections respectively. You can customize them by putting something similar like the following in your vimrc:
 
@@ -199,9 +202,20 @@ highlight link multiple_cursors_visual Visual
 
 ## FAQ
 
-**Q** <kbd>CTRL</kbd>+<kbd>n</kbd> doesn't seem to work in gVIM?
+#### **Q** <kbd>CTRL</kbd>+<kbd>n</kbd> doesn't seem to work in gVIM?
 
 **A** Try setting `set selection=inclusive` in your `~/.gvimrc`
+
+#### **Q** How can I select `n` keywords with several keystrokes? I have tried `200<C-n>` which does not work.
+
+**A** You can use :MultipleCursorsFind keyword. I have this binding in my vimrc:
+
+```VimL
+nnoremap <silent> <M-j> :MultipleCursorsFind <C-R>/<CR>
+vnoremap <silent> <M-j> :MultipleCursorsFind <C-R>/<CR>
+```
+
+This allows one to a) search for the keyword using `*` b) turn search results into cursors with `Alt-j`.
 
 ## Known Issues
 - Select mode is not implemented
